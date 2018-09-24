@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static "generic.css" %}"/>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<div id="sidebar" class = "sidenav">
+    <ul>
+{#        <li><a href="{% url 'question_list' %}">Questions</a> </li>#}
+        <li><a href="{% url 'person_list' %}">Persons</a></li>
+    </ul>
+</div>
+<div class="main">
+{% block content %}
+{% endblock %}
+</div>
+</body>
+</html>

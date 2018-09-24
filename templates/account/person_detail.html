@@ -1,0 +1,9 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    {% if person.user_id == request.user.id %}
+        <h3>IT'S YOU</h3>
+    {% endif %}
+    <h1>{{ person.name }} {{ person.surname }}</h1>
+
+{% endblock %}
