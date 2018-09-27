@@ -18,8 +18,9 @@ from django.urls import path
 from django.urls import include
 
 urlpatterns = [
-    path('jet/', include('jet.urls')),
-    path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
+    # path('jet/', include('jet.urls')),
+    # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),
-    path('account/', include('account.urls'))
+    path('account/', include('account.urls')),
+    path('questions/', include('questions.urls'))
 ]

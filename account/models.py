@@ -17,7 +17,7 @@ class Person(models.Model):
         ordering = ["name"]
 
     def __str__(self):
-        return self.name + ' ' + self.surname
+        return self.name + ' ' + self.surname + '({})'.format(self.nickname)
 
     def get_absolute_url(self):
         return reverse('person_detail', args=[self.id])

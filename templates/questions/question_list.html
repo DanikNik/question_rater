@@ -1,0 +1,22 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h1>LIST OF QUESTIONS IN SYSTEM</h1>
+
+    {% if question_list %}
+        {% for question in question_list %}
+            <div class="card text-center" style="width: 50%; margin-bottom: 15px; margin-left: 30px">
+                <div class="card-header">
+                    <a class="card-link" href="{{ question.get_absolute_url }}">{{ question }}</a>
+                </div>
+                <div class="card-body">
+                    <p>{{ question.description }}</p>
+                </div>
+                <button type="submit" class="btn">Submit</button>
+            </div>
+        {% endfor %}
+
+    {% else %}
+        <p>No questions are available.</p>
+    {% endif %}
+{% endblock %}
