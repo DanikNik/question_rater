@@ -3,16 +3,27 @@
 {% block content %}
     <h1>{{ question.title }}</h1>
     <p>{{ question.description }}</p>
-    {% if not request.user.person in question.raters %}
-    <form method="post">
-        <div class="form-group">
-            {% csrf_token %}
-            {{ form.as_p }}
-{#            <input type="submit" class="btn" value="Rate!"/>#}
-        </div>
-    </form>
+    {% if not request.user.person in question.raters.all %}
+        <form method="post">
+            <div class="form-group">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {#            <input type="submit" class="btn" value="Rate!"/>#}
+            </div>
+        </form>
     {% endif %}
-    {% for person in question.raters.all %}
-        <p>{{ person }}</p>
-    {% endfor %}
+    {% if question_answers %}
+        <ul class="list-group list-group-flush">
+            {% for answer in question_answers %}
+                <li class="list-group-item">{{ answer.person }} -- {{ answer.rating }}</li>
+            {% endfor %}
+        </ul>
+        <h1>YOUR ANSWER IS: {{ user_answer.rating }}</h1>
+        <h5>RATERS</h5>
+        <ul class="list-group">
+            {% for person in question.raters.all %}
+                <li class="list-group-item">{{ person }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}

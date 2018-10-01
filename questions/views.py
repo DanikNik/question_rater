@@ -21,6 +21,14 @@ class QuestionDetailView(DetailView, FormMixin):
     context_object_name = 'question'
 
     form_class = RateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['question_answers'] = QuestionAnswers.objects.filter(question=self.object)
+            context["user_answer"]= QuestionAnswers.objects.get(person=self.request.user.person, question=self.object)
+        finally:
+            return context
     def get_success_url(self):
         return self.object.get_absolute_url()
 

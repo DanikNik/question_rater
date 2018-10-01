@@ -5,15 +5,17 @@
 
     {% if question_list %}
         {% for question in question_list %}
-            <div class="card text-center" style="width: 50%; margin-bottom: 15px; margin-left: 30px">
-                <div class="card-header">
-                    <a class="card-link" href="{{ question.get_absolute_url }}">{{ question }}</a>
+            <a href="{{ question.get_absolute_url }}" class="custom-card">
+                <div class="card " style="width: 50%; margin-bottom: 15px; margin-left: 30px">
+                    <div class="card-header">
+                        <p>{{ question }}</p>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ question.description }}</p>
+                    </div>
+                    {#                <button type="submit" class="btn">Submit</button>#}
                 </div>
-                <div class="card-body">
-                    <p>{{ question.description }}</p>
-                </div>
-                <button type="submit" class="btn">Submit</button>
-            </div>
+            </a>
         {% endfor %}
 
     {% else %}

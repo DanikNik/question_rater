@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="{% static "bootstrap/dist/css/bootstrap.min.css" %}"/>
     {#    <link rel="stylesheet" href="{% static "css/purecss/grids-responsive-min.css" %}"/>#}
     <title>{% block title %}{% endblock %}</title>
-
+    <style>
+        a.custom-card,
+        a.custom-card:hover {
+            color: inherit;
+        }
+    </style>
 
 </head>
 <body>
@@ -22,16 +27,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'question_list' %}">Questions</a>
                 </li>
-            </ul>
-            <div class="nav-item">
+
                 {% if not request.user.is_authenticated %}
-                    <a class="nav-link" href="{% url 'register' %}">Register</a>
-                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                 {% else %}
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                    <a class="nav-link" href="{{ request.user.person.get_absolute_url }}"></a>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ request.user.person.get_absolute_url }}">{{ request.user.person }}</a></li>
                 {% endif %}
-            </div>
+            </ul>
         </div>
     </nav>
     <div>
