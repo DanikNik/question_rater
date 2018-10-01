@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormMixin
-from .models import Question, QuestionAnswer
+from .models import Question, QuestionAnswers
 from account.models import Person
 from django import forms
 
@@ -21,7 +21,8 @@ class QuestionDetailView(DetailView, FormMixin):
     context_object_name = 'question'
 
     form_class = RateForm
-    success_url = '/account'
+    def get_success_url(self):
+        return self.object.get_absolute_url()
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -32,6 +33,8 @@ class QuestionDetailView(DetailView, FormMixin):
             return self.form_invalid(form)
 
     def form_valid(self, form):
-        answer = QuestionAnswer.rate_question(_question=self.get_object(), _rating=form.cleaned_data['rating'], _person=Person.objects.get(id=25))
+        answer = QuestionAnswers.rate_question(_question=self.get_object(),
+                                               _rating=form.cleaned_data['rating'],
+                                               _person=self.request.user.person)
         answer.save()
         return super(QuestionDetailView, self).form_valid(form)

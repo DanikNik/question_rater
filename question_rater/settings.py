@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account',
-    'questions'
+    'questions',
+    'authenticate',
+    'dashboard'
 ]
 
 MIDDLEWARE = [
@@ -133,3 +135,6 @@ STATICFILES_DIRS = [
 #Jet configuration
 
 JET_SIDE_MENU_COMPACT = False
+
+
+LOGIN_REDIRECT_URL = '/dashboard'

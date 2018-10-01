@@ -3,6 +3,7 @@
 {% block content %}
     <h1>{{ question.title }}</h1>
     <p>{{ question.description }}</p>
+    {% if not request.user.person in question.raters %}
     <form method="post">
         <div class="form-group">
             {% csrf_token %}
@@ -10,4 +11,8 @@
 {#            <input type="submit" class="btn" value="Rate!"/>#}
         </div>
     </form>
+    {% endif %}
+    {% for person in question.raters.all %}
+        <p>{{ person }}</p>
+    {% endfor %}
 {% endblock %}

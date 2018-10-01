@@ -2,9 +2,12 @@ from django.db import models
 from account.models import Person
 from django.urls import reverse
 
+
 class Question(models.Model):
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
+    raters = models.ManyToManyField(Person, through='QuestionAnswers')
+
 
     class Meta:
         ordering = ["title"]
@@ -16,8 +19,7 @@ class Question(models.Model):
         return reverse('question_detail', args=[self.id])
 
 
-
-class QuestionAnswer(models.Model):
+class QuestionAnswers(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, null=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
     rating = models.FloatField()

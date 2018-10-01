@@ -22,5 +22,8 @@ urlpatterns = [
     # path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
-    path('questions/', include('questions.urls'))
+    path('questions/', include('questions.urls')),
+    path('auth/', include('django.contrib.auth.urls')),
+    path('auth/', include('authenticate.urls')),
+    path('dashboard/', include('dashboard.urls')),
 ]
