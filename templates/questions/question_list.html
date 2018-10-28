@@ -1,24 +1,31 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-    <h1>LIST OF QUESTIONS IN SYSTEM</h1>
+    <div>
+        <h1>LIST OF QUESTIONS IN SYSTEM</h1>
 
-    {% if question_list %}
-        {% for question in question_list %}
-            <a href="{{ question.get_absolute_url }}" class="custom-card">
-                <div class="card " style="width: 50%; margin-bottom: 15px; margin-left: 30px">
-                    <div class="card-header">
-                        <p>{{ question }}</p>
+        {% if question_list %}
+            {% for question in question_list %}
+                <a href="{{ question.get_absolute_url }}" class="custom-card">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <p>{{ question }}</p>
+                        </div>
+                        <div class="card-body">
+                            <p>{{ question.description }}</p>
+                        </div>
+{#                        <div class="card-footer">#}
+{#                            {% for tag in question.tags.all %}#}
+{#                                <a href="{{ tag.get_absolute_url }}">{{ tag }}</a>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+                        {#                <button type="submit" class="btn">Submit</button>#}
                     </div>
-                    <div class="card-body">
-                        <p>{{ question.description }}</p>
-                    </div>
-                    {#                <button type="submit" class="btn">Submit</button>#}
-                </div>
-            </a>
-        {% endfor %}
+                </a>
+            {% endfor %}
 
-    {% else %}
-        <p>No questions are available.</p>
-    {% endif %}
+        {% else %}
+            <p>No questions are available.</p>
+        {% endif %}
+    </div>
 {% endblock %}

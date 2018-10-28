@@ -60,7 +60,7 @@ class RegisterFormView(FormView):
         self.user = form.save()
         print(self.user)
         login(self.request, self.user)
-        self.success_url = "/auth/login/?next=/account/new_person/"
+        self.success_url = "/auth/login/"
         return super(RegisterFormView, self).form_valid(form)
 
 # Create your views here.

@@ -3,27 +3,86 @@
 {% block content %}
     <h1>{{ question.title }}</h1>
     <p>{{ question.description }}</p>
-    {% if not request.user.person in question.raters.all %}
+
+    {% if request.user.is_staff %}
+
+        {% if question_answers %}
+            <ul class="list-group list-group-flush">
+                {% for answer in question_answers %}
+                    <li class="list-group-item">{{ answer.person }} -- {{ answer.log.rating }}
+                        -- {{ answer.log.timestamp }}</li>
+                {% endfor %}
+            </ul>
+            {#            <h1>YOUR ANSWER IS: {{ user_latest_answer.rating }}</h1>#}
+            {#            <h5>RATERS</h5>#}
+            {#            <ul class="list-group">#}
+            {#                {% for person in question.raters.all %}#}
+            {#                    <li class="list-group-item">{{ person }}</li>#}
+            {#                {% endfor %}#}
+            {#            </ul>#}
+        {% endif %}
+
+    {% else %}
         <form method="post">
             <div class="form-group">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form.rating }}
                 {#            <input type="submit" class="btn" value="Rate!"/>#}
             </div>
         </form>
+
+        {% if request.user.person in question.raters.all %}
+            {% if question_answers %}
+                <ul class="list-group list-group-flush mb-2">
+                    {% for answer in question_answers %}
+                        <li class="list-group-item">
+                            {{ answer.person }}
+                            -- {{ answer.log.rating }} -- {{ answer.log.timestamp }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <h1>YOUR ANSWER IS: {{ user_latest_answer.rating }}</h1>
+                {#            <h5>RATERS</h5>#}
+                {#            <ul class="list-group">#}
+                {#                {% for person in question.raters.all %}#}
+                {#                    <li class="list-group-item">{{ person }}</li>#}
+                {#                {% endfor %}#}
+                {#            </ul>#}
+            {% endif %}
+        {% endif %}
     {% endif %}
-    {% if question_answers %}
-        <ul class="list-group list-group-flush">
-            {% for answer in question_answers %}
-                <li class="list-group-item">{{ answer.person }} -- {{ answer.rating }}</li>
-            {% endfor %}
-        </ul>
-        <h1>YOUR ANSWER IS: {{ user_answer.rating }}</h1>
-        <h5>RATERS</h5>
-        <ul class="list-group">
-            {% for person in question.raters.all %}
-                <li class="list-group-item">{{ person }}</li>
-            {% endfor %}
-        </ul>
+{% endblock %}
+
+{% block right_bar %}
+    {% if request.user.is_staff %}
+        <div class="card">
+            <div class="card-header">
+                <h2>Admin Actions</h2>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a href="#" class="card-link">Set true answer</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#" class="card-link">Update question</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#" class="card-link">Delete question</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        {% if user_answers %}
+            <div class="card">
+                <div class="card-header"><h2>MY ANSWERS LOG</h2></div>
+                <ul class="list-group list-group-flush">
+                    {% for answer in user_answers %}
+                        <li class="list-group-item">{{ answer.rating }} -- {{ answer.timestamp }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     {% endif %}
 {% endblock %}

@@ -1,14 +1,15 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView
 from .models import Person
 from django.views.generic import CreateView
+from catalog.assets.user_check_mixins import ProfileCheckMixin
 
-class PersonListView(ListView):
+class PersonListView(ProfileCheckMixin, ListView):
     model = Person
     template_name = 'account/person_list.html'
     context_object_name = 'person_list'
 
 
-class PersonDetailView(DetailView):
+class PersonDetailView(ProfileCheckMixin, DetailView):
     model = Person
     template_name = 'account/person_detail.html'
     context_object_name = 'person'
@@ -28,3 +29,17 @@ class PersonCreateView(CreateView):
         person = form.save(commit=False)
         person.user = self.request.user
         return super(PersonCreateView, self).form_valid(form)
+
+
+class PersonUpdateView(ProfileCheckMixin, UpdateView):
+    model = Person
+    fields = ['type']
+    template_name = 'account/person_update.html'
+    fields = [
+        'nickname',
+        'name',
+        'surname',
+    ]
+
+    def get_object(self):
+        return self.request.user.person

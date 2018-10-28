@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView
-# from authenticate import requirements
+from catalog.assets.user_check_mixins import ProfileCheckMixin
 
-class DashboardView(TemplateView):
+class DashboardView(ProfileCheckMixin, TemplateView):
     template_name = "dashboard/dashboard.html"

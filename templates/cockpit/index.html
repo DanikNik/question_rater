@@ -1,0 +1,30 @@
+{% extends 'base_generic.html' %}
+
+{% block page_header %}
+<h1>Question Rater Cockpit</h1>
+{% endblock %}
+
+{% block content %}
+    {% for question in question_list %}
+        <a href="{{ question.get_absolute_url }}">
+            <div class="card mb-3">
+                <div class="card-header">{{ question.title }}</div>
+                <div class="card-body">{{ question.description }}</div>
+            </div>
+        </a>
+    {% endfor %}
+
+{% endblock %}
+
+
+{% block right_bar %}
+    <div class="card">
+        <div class="card-header">ADMIN ACTIONS</div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a href="#">Add question</a></li>
+                <li class="list-group-item"><a href="#">Add tag</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
