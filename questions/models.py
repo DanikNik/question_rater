@@ -7,7 +7,7 @@ class Question(models.Model):
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     raters = models.ManyToManyField(Person, through='questions.QuestionAnswer')
-    # tags = models.ManyToManyField('Tag')
+    tags = models.ManyToManyField('Tag')
 
     # true_answer = models.BooleanField(null = True, blank = True)
 
@@ -47,11 +47,11 @@ class QuestionAnswer(models.Model):
         self.log = _log_entry
 
 
-# class Tag(models.Model):
-#     tag_name = models.CharField(max_length=30)
-#
-#     def __str__(self):
-#         return self.tag_name
-#
-#     def get_absolute_url(self):
-#         return reverse('question_by_tag_list', args=[self.id])
+class Tag(models.Model):
+    tag_name = models.SlugField(max_length=30)
+
+    def __str__(self):
+        return self.tag_name
+
+    # def get_absolute_url(self):
+    #     return reverse('question_by_tag_list', args=[self.id])

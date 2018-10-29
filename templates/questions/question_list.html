@@ -6,22 +6,26 @@
 
         {% if question_list %}
             {% for question in question_list %}
-                <a href="{{ question.get_absolute_url }}" class="custom-card">
-                    <div class="card mb-3">
+                <div class="card mb-3">
+                    <a href="{{ question.get_absolute_url }}" class="custom-card">
                         <div class="card-header">
                             <p>{{ question }}</p>
                         </div>
+                    </a>
+                    <a href="{{ question.get_absolute_url }}" class="custom-card">
                         <div class="card-body">
                             <p>{{ question.description }}</p>
                         </div>
-{#                        <div class="card-footer">#}
-{#                            {% for tag in question.tags.all %}#}
-{#                                <a href="{{ tag.get_absolute_url }}">{{ tag }}</a>#}
-{#                            {% endfor %}#}
-{#                        </div>#}
-                        {#                <button type="submit" class="btn">Submit</button>#}
+                    </a>
+                    <div class="card-footer">
+                        {#                        <button type="submit" class="btn btn-danger">Submit</button>#}
+                        <p class="card-text">
+                            {% for tag in question.tags.all %}
+                                <a href="{{ tag.get_absolute_url }}">{{ tag }}</a>
+                            {% endfor %}
+                        </p>
                     </div>
-                </a>
+                </div>
             {% endfor %}
 
         {% else %}

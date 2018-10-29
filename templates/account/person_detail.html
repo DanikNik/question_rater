@@ -5,8 +5,15 @@
         <h3>IT'S YOU</h3>
     {% endif %}
     <h1>{{ person.name }} {{ person.surname }}</h1>
-    {% for question in person.question_set.all%}
-        <a href="{{ question.get_absolute_url }}">{{ question }}</a>
+    {% for question in person.question_set.all %}
+        <a href="{{ question.get_absolute_url }}" class="custom-card">
+            <div class="media mb-3">
+                <div class="card-body">
+                    <h3>{{ question }}</h3>
+                    <p>{{ question.description }}</p>
+                </div>
+            </div>
+        </a>
     {% endfor %}
 
 {% endblock %}
