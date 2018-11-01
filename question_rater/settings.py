@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'authenticate',
     'dashboard',
     'index',
-    'cockpit',
+    # 'cockpit',
 
 ]
 

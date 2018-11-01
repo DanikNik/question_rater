@@ -43,7 +43,7 @@
                     <a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                 {% if request.user.is_staff %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cockpit_index' %}">{{ request.user.person }}</a></li>
+                        <a class="nav-link" href="/admin/">{{ request.user.person }}</a></li>
                 {% else %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'dashboard' %}">{{ request.user.person }}</a></li>

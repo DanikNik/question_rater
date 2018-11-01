@@ -5,9 +5,9 @@ from django.urls import reverse
 
 class Question(models.Model):
     title = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
+    description = models.TextField()
     raters = models.ManyToManyField(Person, through='questions.QuestionAnswer')
-    tags = models.ManyToManyField('Tag')
+    tags = models.ManyToManyField(to='Tag', related_name='questions')
 
     # true_answer = models.BooleanField(null = True, blank = True)
 
@@ -48,10 +48,10 @@ class QuestionAnswer(models.Model):
 
 
 class Tag(models.Model):
-    tag_name = models.SlugField(max_length=30)
+    tag_name = models.SlugField(unique= True)
 
     def __str__(self):
         return self.tag_name
 
-    # def get_absolute_url(self):
-    #     return reverse('question_by_tag_list', args=[self.id])
+    def get_absolute_url(self):
+        return reverse('question_by_tag_list', )

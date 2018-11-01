@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormMixin
-from .models import Question, QuestionAnswer, QuestionAnswersLog
+from .models import Question, QuestionAnswer, QuestionAnswersLog, Tag
 from django.db import models
 from account.models import Person
 from django import forms
@@ -15,7 +15,17 @@ class RateForm(forms.Form):
 class QuestionListView(ProfileCheckMixin, ListView):
     model = Question
     template_name = 'questions/question_list.html'
-    context_object_name = 'question_list'
+    # paginate_by = 4
+    # context_object_name = 'question_list'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tag_name = self.request.GET.get('tag')
+        if tag_name is not None:
+            context['question_list'] = Question.objects.filter(tags__tag_name__exact=tag_name)
+        else:
+            context['question_list'] = Question.objects.all()
+        return context
 
 
 class QuestionDetailView(ProfileCheckMixin, DetailView, FormMixin):
@@ -31,7 +41,7 @@ class QuestionDetailView(ProfileCheckMixin, DetailView, FormMixin):
             context['question_answers'] = QuestionAnswer.objects.filter(question=self.object).order_by('person')
 
             context["user_latest_answer"] = QuestionAnswersLog.objects.filter(person=self.request.user.person,
-                                                                       question=self.object).latest('timestamp')
+                                                                              question=self.object).latest('timestamp')
             context['user_answers'] = QuestionAnswersLog.objects.filter(person=self.request.user.person,
                                                                         question=self.object).order_by('-timestamp')
         finally:
@@ -61,7 +71,6 @@ class QuestionDetailView(ProfileCheckMixin, DetailView, FormMixin):
             QuestionAnswer.objects.create(person=self.request.user.person, question=self.object, log=answer)
 
         return super(QuestionDetailView, self).form_valid(form)
-
 
 # class QuestionByTagListView(QuestionListView, SingleObjectMixin):
 #     model = Tag

@@ -16,12 +16,22 @@ from account.models import Person
 from questions.models import Question, Tag
 from django.contrib.auth.models import User
 from faker import Faker
+from random import randint
 
 fake = Faker()
 admin = User.objects.create_superuser(username='admin', password='admin', email='root@admin.com')
 admin.save()
 Person.objects.create(name='ADMIN', surname='ADMIN', nickname='ADMIN', user=admin)
 print('[+] Created superuser')
+
+for i in range(20):
+    try:
+        tag = Tag.objects.create(tag_name=fake.word())
+        tag.save()
+        print('[+] Created tag {}'.format(tag.tag_name))
+    except:
+        pass
+
 
 for i in range(20):
     us = User.objects.create_user(username='user_{}'.format(i), password='pass')
@@ -33,10 +43,18 @@ for i in range(20):
     person.save()
     print('[+] Created person {}'.format(person.nickname))
 
-    tag = Tag.objects.create(tag_name=fake.word())
-    tag.save()
-    print('[+] Created tag {}'.format(tag.tag_name))
     q = Question.objects.create(title=fake.sentence(),
                                 description=' '.join(fake.sentences()))
+
+    taglist = []
+
+    for j in range(3):
+        r = randint(0, 19)
+        print(r)
+        taglist.append(list(Tag.objects.all())[r])
+
+    print(taglist)
+    q.tags.set(taglist)
     q.save()
+
     print('[+] Created question {}'.format(q.title))
