@@ -8,7 +8,7 @@ from . import models
 admin.site.register(models.Tag)
 
 
-class TagsInline(admin.StackedInline):
+class TagsInline(admin.TabularInline):
     model = models.Question.tags.through
     extra = 1
 
