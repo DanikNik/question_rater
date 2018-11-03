@@ -3,7 +3,7 @@
 {% block content %}
     <div>
         <h1>LIST OF QUESTIONS IN SYSTEM</h1>
-    <h1>Tag {{ asd }}</h1>
+    <h1>Tag '{{ tag_query }}'</h1>
 
         {% if question_list %}
             {% for question in question_list %}
@@ -20,11 +20,11 @@
                     </a>
                     <div class="card-footer">
                         {#                        <button type="submit" class="btn btn-danger">Submit</button>#}
-                        <p class="card-text">
+                        <span class="card-text">
                             {% for tag in question.tags.all %}
                                 <a href="{% url 'question_list' %}?tag={{tag}}">{{ tag }}</a>
                             {% endfor %}
-                        </p>
+                        </span>
                     </div>
                 </div>
             {% endfor %}
