@@ -1,14 +1,8 @@
 from django import forms
 from django.core.mail import send_mail
 
-class QuestionActionForm(forms.Form):
-    comment = forms.CharField(
-        required=False,
-        widget=forms.Textarea,
-    )
-    send_email = forms.BooleanField(
-        required=False,
-    )
+class QuestionSetAnswerForm(forms.Form):
+    answer = forms.BooleanField()
 
     # @property
     # def email_subject_template(self):
@@ -22,11 +16,19 @@ class QuestionActionForm(forms.Form):
         raise NotImplementedError()
 
     def save(self, account, user):
+        try:
+            account, action = self.form_action(account, user)
+
+        except errors.Error as e:
+            error_message = str(e)
+            self.add_error(None, error_message)
+            raise
+
         if self.cleaned_data.get('send_email', False):
             send_mail(
                 recipient_list=[account.user.email],
                 subject=self.email_subject_template,
-                html_message=self.email_body_template,
+                body_template=self.email_body_template,
                 context={
                     "account": account,
                     "action": action,

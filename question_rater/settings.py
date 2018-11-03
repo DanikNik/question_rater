@@ -137,3 +137,7 @@ JET_SIDE_MENU_COMPACT = False
 
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGOUT_REDIRECT_URL = '/'
+
+#Heroku deploy
+import django_heroku
+django_heroku.settings(locals())
