@@ -126,7 +126,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "catalog/static"),
-    '/var/www/static/',
+    # '/var/www/static/',
 ]
 
 # Jet configuration
@@ -140,6 +140,6 @@ LOGIN_URL = '/auth/login'
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGOUT_REDIRECT_URL = '/'
 
-#Heroku deploy
+# Heroku deploy
 import django_heroku
 django_heroku.settings(locals())
