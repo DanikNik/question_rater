@@ -22,6 +22,7 @@ class QuestionListView(ProfileCheckMixin, ListView):
         context = super().get_context_data(**kwargs)
         tag_name = self.request.GET.get('tag')
         if tag_name is not None:
+            context['tag_query'] = tag_name
             context['question_list'] = Question.objects.filter(tags__tag_name__exact=tag_name)
         else:
             context['question_list'] = Question.objects.all()

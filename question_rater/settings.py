@@ -133,6 +133,8 @@ STATICFILES_DIRS = [
 
 JET_SIDE_MENU_COMPACT = False
 
+LOGIN_URL = '/auth/login'
+
 # Auth redirect config
 
 LOGIN_REDIRECT_URL = '/dashboard'

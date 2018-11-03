@@ -24,11 +24,13 @@ admin.save()
 Person.objects.create(name='ADMIN', surname='ADMIN', nickname='ADMIN', user=admin)
 print('[+] Created superuser')
 
+count = 0
 for i in range(20):
     try:
         tag = Tag.objects.create(tag_name=fake.word())
         tag.save()
         print('[+] Created tag {}'.format(tag.tag_name))
+        count+=1
     except:
         pass
 
@@ -49,11 +51,11 @@ for i in range(20):
     taglist = []
 
     for j in range(3):
-        r = randint(0, 19)
-        print(r)
+        r = randint(0, count-1)
+        # print(r)
         taglist.append(list(Tag.objects.all())[r])
 
-    print(taglist)
+    # print(taglist)
     q.tags.set(taglist)
     q.save()
 
