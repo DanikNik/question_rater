@@ -13,24 +13,21 @@
                         -- {{ answer.log.timestamp }}</li>
                 {% endfor %}
             </ul>
-            {#            <h1>YOUR ANSWER IS: {{ user_latest_answer.rating }}</h1>#}
-            {#            <h5>RATERS</h5>#}
-            {#            <ul class="list-group">#}
-            {#                {% for person in question.raters.all %}#}
-            {#                    <li class="list-group-item">{{ person }}</li>#}
-            {#                {% endfor %}#}
-            {#            </ul>#}
+        {% endif %}
+    {% else %}
+        {% if question.is_expired %}
+            <h1>TRUE ANSWER: {{ question.true_answer }}</h1>
         {% endif %}
 
-    {% else %}
-        <form method="post">
-            <div class="form-group">
-                {% csrf_token %}
-                {{ form.rating }}
-                {#            <input type="submit" class="btn" value="Rate!"/>#}
-            </div>
-        </form>
-
+        {% if not question.is_expired %}
+            <form method="post">
+                <div class="form-group">
+                    {% csrf_token %}
+                    {{ form.rating }}
+                    {#            <input type="submit" class="btn" value="Rate!"/>#}
+                </div>
+            </form>
+        {% endif %}
         {% if request.user.person in question.raters.all %}
             {% if question_answers %}
                 <ul class="list-group list-group-flush mb-2">
@@ -42,12 +39,6 @@
                     {% endfor %}
                 </ul>
                 <h1>YOUR ANSWER IS: {{ user_latest_answer.rating }}</h1>
-                {#            <h5>RATERS</h5>#}
-                {#            <ul class="list-group">#}
-                {#                {% for person in question.raters.all %}#}
-                {#                    <li class="list-group-item">{{ person }}</li>#}
-                {#                {% endfor %}#}
-                {#            </ul>#}
             {% endif %}
         {% endif %}
     {% endif %}

@@ -35,7 +35,7 @@ for i in range(20):
         pass
 
 
-for i in range(20):
+for i in range(10):
     us = User.objects.create_user(username='user_{}'.format(i), password='pass')
     us.save()
     print('[+] Created user {}'.format(us.username))

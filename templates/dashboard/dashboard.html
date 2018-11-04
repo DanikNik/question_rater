@@ -3,19 +3,23 @@
 {% block title %} Dashboard {% endblock %}
 {% block content %}
     {% if not request.user.is_staff %}
-        <p>Dashboard for <a href="{{ request.user.person.get_absolute_url }}"> {{ request.user.person }}</a></p>
+        <h1>DASHBOARD</h1>
+        <h1>{{ request.user.person.name }} {{ request.user.person.surname }}</h1>
+        <h3>RATING: {{ user.person.rating }}</h3>
         <a href="{% url 'person_update' %}">EDIT PERSONAL</a>
-        {#    <a class="card-link" href="{% url 'person_update' %}"> EditPersonal</a>#}
-        {#    <a href="{{ user.person.get_absolute_url }}">{{ user.person.name }}</a>#}
-        {% if request.user.person.question_set %}
-            <ul>
-                {% for question in request.user.person.question_set.all %}
-                    <li><a href="{{ question.get_absolute_url }}">{{ question.title }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No questions</p>
-        {% endif %}
+
+        {% for question in user.person.question_set.all %}
+            <a href="{{ question.get_absolute_url }}" class="custom-card">
+                <div class="media mb-3">
+                    <div class="card-body">
+                        <h3>{{ question }}</h3>
+                        <p>{{ question.description }}</p>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+
+
     {% else %}
         <a href="#">NEW QUESTION</a>
     {% endif %}

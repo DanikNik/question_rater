@@ -9,7 +9,7 @@ from catalog.assets.user_check_mixins import ProfileCheckMixin
 
 
 class RateForm(forms.Form):
-    rating = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    rating = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control'}), min_value=0, max_value=100)
 
 
 class QuestionListView(ProfileCheckMixin, ListView):

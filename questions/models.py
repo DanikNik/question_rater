@@ -2,14 +2,17 @@ from django.db import models
 from account.models import Person
 from django.urls import reverse
 
+from catalog.assets.rating_rebase import ar_avg
+
 
 class Question(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     raters = models.ManyToManyField(Person, through='questions.QuestionAnswer')
-    tags = models.ManyToManyField(to='Tag', related_name='questions')
+    tags = models.ManyToManyField(to='Tag', related_name='questions', verbose_name='Tags')
 
-    # true_answer = models.BooleanField(null = True, blank = True)
+    is_expired = models.BooleanField(default=False)
+    true_answer = models.BooleanField(null=True, blank=True, default=None)
 
     # date
     # expire_date
@@ -21,6 +24,14 @@ class Question(models.Model):
 
     def get_absolute_url(self):
         return reverse('question_detail', args=[self.id])
+
+    def rebase_user_ratings(self):
+        self.is_expired = True
+        self.save()
+        for person in self.raters.all():
+            answer_value = QuestionAnswer.objects.get(question=self, person=person).log.rating
+            person.rating = +ar_avg(answer_value, (100 if self.true_answer else 0))
+            person.save()
 
 
 class QuestionAnswersLog(models.Model):
@@ -42,16 +53,18 @@ class QuestionAnswer(models.Model):
     # timestamp = models.DateTimeField(auto_now=True)
     log = models.OneToOneField(QuestionAnswersLog, null=True, on_delete=models.CASCADE)
 
-    @classmethod
     def set_log_entry(self, _log_entry):
         self.log = _log_entry
 
 
 class Tag(models.Model):
-    tag_name = models.SlugField(unique= True)
+    tag_name = models.SlugField(unique=True)
 
     def __str__(self):
         return self.tag_name
 
     def get_absolute_url(self):
         return reverse('question_by_tag_list', )
+
+    class Meta:
+        verbose_name = 'Tag'

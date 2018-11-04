@@ -7,7 +7,7 @@
         <ul>
             {% for person in person_list %}
                 <li>
-                    <a href="{{ person.get_absolute_url }}">{{ person }}</a>
+                    <a href="{{ person.get_absolute_url }}">{{ person }} ({{ person.rating }})</a>
                 </li>
             {% endfor %}
         </ul>

@@ -12,7 +12,7 @@ class Person(models.Model):
 
     avatar = models.ImageField(null=True, blank=True)
 
-    rating = models.FloatField(null=True, blank=True)
+    rating = models.FloatField(null=True, blank=True, default=0.0)
 
     class Meta:
         ordering = ["name"]
